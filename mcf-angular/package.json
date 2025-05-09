@@ -1,0 +1,23 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "start": "node ./scripts/start.js",
+    "start:all": "lerna run start --parallel --stream"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^7.1.4",
+    "hosted-git-info": "^4.1.0",
+    "lru-cache": "^6.0.0"
+  },
+  "dependencies": {
+    "pidtree": "^0.6.0"
+  },
+  "resolutions": {
+    "hosted-git-info": "^4.1.0",
+    "lru-cache": "^6.0.0"
+  }
+}

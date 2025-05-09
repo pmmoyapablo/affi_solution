@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  mcs-nodejs:
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+      - API_URL=http://localhost:5000/api
+      - DB_NAME=Affi_Users
+      - DB_HOST=db-mysql-nodejs
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=adminMysqlser_dev.123
+      - DB_DIALECT=mysql
+      - JWT_SECRET=abcdefgh12345678
+      - ADAPTER=mysql
+    ports:
+      - "4000:4000"
+    #env_file:
+      #- mcs_administrators/.env
+    working_dir: /app
+    #command: npm run dev
+    networks:
+        - affi-network
+  
+  mcf-angular:
+    ports:
+      - "4200:4200"
+    #volumes:
+     #- .:/app
+     #- ./node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_API_BASE_URL=http://localhost:8080
+    stdin_open: true
+    tty: true
+    command: npm start
+    networks:
+        - affi-network
+  
+  db-mysql-nodejs:
+    environment:
+      MYSQL_ROOT_PASSWORD: 'adminMysqlser_dev.123'
+      MYSQL_DATABASE: 'Affi_Users'
+    ports:
+      - '3307:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db-users:/var/lib/mysql
+    networks:
+        - affi-network
+
+volumes:
+  my-db-users:
+
+networks:
+  affi-network:
+    driver: bridge

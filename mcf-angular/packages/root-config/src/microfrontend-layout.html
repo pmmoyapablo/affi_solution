@@ -1,0 +1,24 @@
+<single-spa-router mode="hash">
+ 
+<nav>
+  <route path="inicio">
+    <application name="@ventas/menu"></application>
+  </route>
+
+ 
+</nav>
+
+  <main>
+    <application name="@ventas/layout"></application>
+
+    <route path="clientes">
+      <application name="@ventas/clientes"></application>
+    </route>
+    <route path="facturar">
+      <application name="@ventas/facturar"></application>
+    </route>
+    <route path="productos">
+      <application name="@ventas/productos"></application>
+    </route>
+  </main>
+</single-spa-router>

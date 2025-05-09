@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "root",
+    "password": "adminMysqlser_dev.123",
+    "database": "Affi_Users",
+    "host": "db-mysql-nodejs",
+    "port": "3307",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "adminMysqlser_dev.123",
+    "database": "Affi_Users",
+    "host": "127.0.0.1",
+    "port": "3307",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "adminMysqlser_dev.123",
+    "database": "Affi_Users",
+    "host": "127.0.0.1",
+    "port": "3307",
+    "dialect": "mysql"
+  }
+}

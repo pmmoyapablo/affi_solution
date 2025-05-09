@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-server-service # Nombre del Service
+  labels:
+    app: eureka-server       # Etiqueta opcional para el Service, puede ser útil para organización
+spec:
+  type: LoadBalancer         # Tipo de Service: Expone el servicio externamente usando el LoadBalancer del proveedor cloud
+  selector:
+    app: eureka-server       # Selector: Encuentra los Pods a los que dirigir el tráfico (debe coincidir con las etiquetas del Pod en el Deployment)
+  ports:
+    - protocol: TCP
+      port: 80               # Puerto EXTERNO: El puerto en el que el Service (LoadBalancer) escuchará
+      targetPort: http       # Puerto OBJETIVO en el Pod: El puerto (o nombre del puerto) al que se reenviará el tráfico dentro del Pod (8080 en este caso, referenciado por su nombre 'http')
+      # Alternativamente, podrías usar directamente el número: targetPort: 8080

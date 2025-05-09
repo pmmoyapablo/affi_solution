@@ -1,0 +1,41 @@
+.footer {
+    background-color: #303846;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+    height: 136px;
+  
+    @media screen and (min-width: 768px) {
+      height: 77px;
+    }
+  
+    .container {
+      color: #ebedf0;
+      line-height: 2;
+  
+      a {
+        color: #42b983;
+        &:hover {
+          color: #42b983;
+        }
+      }
+  
+      #github-link {
+        margin-left: 10px;
+        display: block;
+  
+        @media screen and (min-width: 768px) {
+          display: inline;
+        }
+      }
+  
+      #personal-page-link {
+        display: block;
+  
+        @media screen and (min-width: 768px) {
+          display: inline;
+        }
+      }
+    }
+  }

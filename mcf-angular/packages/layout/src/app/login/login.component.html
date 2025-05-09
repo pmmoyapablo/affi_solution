@@ -1,0 +1,21 @@
+<div class="card flex justify-content-center align-items-center mt-7">
+  <p-card header="Sistema de ventas" subheader="Iniciar sesión" [style]="{ width: '460px' }">
+   
+    <ng-template pTemplate="header">
+      <p-messages></p-messages>
+  </ng-template>
+    
+    <div class="card flex  flex-column md:justify-content-between col-gap-2 align-middle gap-3 mt-3">
+      <input type="email" pInputText [(ngModel)]="email" placeholder="Correo electrónico" />
+      <input type="password" pInputText [(ngModel)]="password" placeholder="Contraseña" />
+    </div>
+    
+    <ng-template pTemplate="footer">
+      <div class="card flex justify-content-center">
+        <button pButton type="button" styleClass="p-button-secondary" (click)="login()" label="Ingresar"></button>
+       
+      </div>
+      
+    </ng-template>
+  </p-card>
+</div>

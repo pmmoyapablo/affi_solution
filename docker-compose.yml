@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  mcs-nodejs:
+    container_name: mcs_nodejs
+    image: pm44019/mcs-nodejs:v1
+    build:
+      context: .
+      dockerfile: mcs-nodejs/Dockerfile
+    depends_on:
+      - db-mysql-nodejs
+      
+  mcf-angular:
+    container_name: mcf_angular
+    image: pm44019/mcf-angular:v1
+    build:
+      context: .
+      dockerfile: mcf-angular/Dockerfile
+  
+  db-mysql-nodejs:
+    image: mysql:latest
+    restart: always

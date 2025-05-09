@@ -1,0 +1,10 @@
+<div id="layout-app">
+
+  <app-login *ngIf="!userAutenticado" (loginSuccess)="updateUserStatus($event)"></app-login>
+  <app-header *ngIf="userAutenticado"></app-header>
+
+  
+    <router-outlet *ngIf="userAutenticado"></router-outlet>
+
+</div>
+ 

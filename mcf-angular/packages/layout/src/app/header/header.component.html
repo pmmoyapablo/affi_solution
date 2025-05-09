@@ -1,0 +1,13 @@
+<div id="header" class="clearfix">
+
+    <p-menubar [model]="menuItems" [style]="{width: '100%'}">
+      <ng-template pTemplate="end">
+        <button pButton type="button" icon="pi pi-power-off" (click)="logout()" class="p-button-sm" iconPos="left"></button>
+      </ng-template>
+      
+    </p-menubar>
+
+    <router-outlet></router-outlet>
+  </div>
+
+  
