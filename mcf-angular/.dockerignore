@@ -1,0 +1,33 @@
+# Dependencias
+node_modules
+**/node_modules
+
+# Archivos de construcción
+dist
+**/dist
+
+# Archivos de desarrollo
+.git
+.gitignore
+.env
+.env.*
+*.log
+.DS_Store
+
+# Archivos de IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Archivos de prueba
+coverage
+**/coverage
+.nyc_output
+**/.nyc_output
+
+# Archivos temporales
+tmp
+temp
+**/tmp
+**/temp 

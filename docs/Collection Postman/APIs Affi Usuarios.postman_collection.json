@@ -1,0 +1,183 @@
+{
+	"info": {
+		"_postman_id": "e1ed0faa-fc78-47ef-9e4a-07d5728aa41f",
+		"name": "APIs Affi Usuarios",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44726143"
+	},
+	"item": [
+		{
+			"name": "Get Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTc4MTI0NC1kMTlkLTQ5ZDQtYTg4Yy05MDBhODljZGY5ZmIiLCJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6Im1hbnVlbHJvamFzZHVxdWVAZ21haWwuY29tIiwiaWF0IjoxNzQ2ODEzNTI3LCJleHAiOjE3NDY4MjQzMjd9.ggRNLb_wRnljSuZEXIWdpJtfxDIaOJgOS9nUz5why3o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTc4MTI0NC1kMTlkLTQ5ZDQtYTg4Yy05MDBhODljZGY5ZmIiLCJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6Im1hbnVlbHJvamFzZHVxdWVAZ21haWwuY29tIiwiaWF0IjoxNzQ2ODEzNTI3LCJleHAiOjE3NDY4MjQzMjd9.ggRNLb_wRnljSuZEXIWdpJtfxDIaOJgOS9nUz5why3o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Pedro Conga\",\r\n    \"email\": \"p3455igm@gmail.com\",\r\n    \"password\": \"Monecha$1234\",\r\n    \"role\": \"user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NTU3Zjk4Zi0yMWEyLTRhZTEtODY3NS1lYjBhMzliMWI5MWYiLCJyb2xlIjoic3VwZXItYWRtaW4iLCJ1c2VybmFtZSI6InBtbW95YXBhYmxvQGhvdG1haWwuY29tIiwiaWF0IjoxNzQ0ODY0MjMyLCJleHAiOjE3NDQ4NzUwMzJ9.pfuWX96QE4VcxPXgUxvI1i8lb8EJH-vnchRrP71jMEI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Eugenio Piñango\",\r\n    \"email\": \"pmmoyapablo@gmail.com\",\r\n    \"password\": \"$2a$10$KMipL66hM3LrlQQrhXwhSe8GN3VGJEJ55WCvWEH.V/m7WBuQuNt9m\",\r\n    \"role\": \"super-admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/users/ba30940c-9451-4cbc-aea0-196add57d513",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"ba30940c-9451-4cbc-aea0-196add57d513"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Login User",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"manuelrojasduque@gmail.com\",\r\n    \"password\": \"Monecha$1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET User",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwMTc4MTI0NC1kMTlkLTQ5ZDQtYTg4Yy05MDBhODljZGY5ZmIiLCJyb2xlIjoiYWRtaW4iLCJ1c2VybmFtZSI6Im1hbnVlbHJvamFzZHVxdWVAZ21haWwuY29tIiwiaWF0IjoxNzQ2ODEzNTI3LCJleHAiOjE3NDY4MjQzMjd9.ggRNLb_wRnljSuZEXIWdpJtfxDIaOJgOS9nUz5why3o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/users/01781244-d19d-49d4-a88c-900a89cdf9fb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"01781244-d19d-49d4-a88c-900a89cdf9fb"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

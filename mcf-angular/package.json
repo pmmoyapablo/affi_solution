@@ -3,7 +3,10 @@
   "private": true,
   "scripts": {
     "start": "node ./scripts/start.js",
-    "start:all": "lerna run start --parallel --stream"
+    "start:all": "lerna run start --parallel --stream --no-bail",
+    "bootstrap": "lerna bootstrap --legacy-peer-deps",
+    "clean": "lerna clean && rimraf node_modules packages/*/node_modules",
+    "preinstall": "npx npm-force-resolutions"
   },
   "workspaces": [
     "packages/*"
@@ -11,13 +14,17 @@
   "devDependencies": {
     "lerna": "^7.1.4",
     "hosted-git-info": "^4.1.0",
-    "lru-cache": "^6.0.0"
+    "lru-cache": "^6.0.0",
+    "rimraf": "^5.0.5",
+    "npm-force-resolutions": "^0.0.10"
   },
   "dependencies": {
     "pidtree": "^0.6.0"
   },
   "resolutions": {
     "hosted-git-info": "^4.1.0",
-    "lru-cache": "^6.0.0"
+    "lru-cache": "^6.0.0",
+    "cacache": "^15.3.0",
+    "npm": "^8.19.4"
   }
 }

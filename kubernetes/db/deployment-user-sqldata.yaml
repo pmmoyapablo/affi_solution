@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-sqldata-deployment
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+     app: user-sqldata
+  template:
+    metadata:
+      labels:
+        app: user-sqldata       
+    spec:
+      containers:
+        - name: user-sqldata
+          image: pm44019/userdb:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+              name: mysql
+          #read envars from secret file
+          envFrom:
+            - secretRef:
+                name: user-secret

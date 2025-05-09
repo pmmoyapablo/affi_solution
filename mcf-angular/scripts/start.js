@@ -5,11 +5,7 @@ const {spawn} = require('node:child_process')
 const pidTree = require("pidtree");
 
 const apps = {
-clientes:4200,
-facturar:4201,
-menu:4202,
-productos:4203,
-reportes:4204
+menu:4202
 };
 
 (async () => {

@@ -1,0 +1,30 @@
+# Archivos de estado de Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+!terraform.tfvars.example
+
+# Archivos de crash
+crash.log
+crash.*.log
+
+# Archivos de override
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Archivos de lock
+.terraform.lock.hcl
+
+# Directorio de módulos
+.terraform/
+.terraform.lock.hcl
+
+# Archivos de variables locales
+*.tfvars
+!terraform.tfvars.example
+
+# Archivos de credenciales
+.azure/
+.azure-credentials 

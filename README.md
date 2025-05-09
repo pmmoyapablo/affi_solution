@@ -1,17 +1,21 @@
-# Prueba Ceyla
+# Prueba Affi
 
-## Ejecutar el API:
+## Ejecutar el Proyecto en Docker in Shell Console (Git Bash o Linux):
 
-docker-compose up -d
+cd affi_solution/
+sh ./startup.sh
 
-## Ejecutar Migración y arrancar fuera de contenedor (Shell Linux):
+## Provicional la Infraestructura en Azure:
 
-cd api_ceyla/
-./startup.sh
+cd terraform/azure/
+terraform init
+terraform plan
+terraform apply
 
 ## Rutas Bases de los Recursos de la API:
 
-- Clientes:  http://localhost:3000/api/clientes
-- Equipos: http://localhost:3000/api/equipos
-- Negocio: http://localhost:3000/api/negocios
-- Facturas: http://localhost:3000/api/facturas
+- Login User [POST]:  http://localhost:4000/api/users/login
+- List Users [GET]: http://localhost:4000/api/users
+- Create User [POST]: http://localhost:4000/api/users
+
+** En la carpeta docs/ ha un directorio con una colección Postman con los body y Request para probar la Api una vez levantada.

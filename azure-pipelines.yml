@@ -1,0 +1,149 @@
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+  paths:
+    include:
+      - mcs-nodejs/**
+      - mcf-angular/**
+
+variables:
+  - group: azure-credentials
+  - name: NODE_VERSION
+    value: '20.x'
+  - name: DOCKER_REGISTRY
+    value: '$(ACR_NAME).azurecr.io'
+
+stages:
+- stage: Build
+  displayName: 'Build and Test'
+  jobs:
+  - job: BuildBackend
+    displayName: 'Build Backend'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '$(NODE_VERSION)'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd mcs-nodejs
+        npm install
+        npm run build
+        npm run test
+      displayName: 'Build and Test Backend'
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: '$(DOCKER_REGISTRY)'
+        repository: 'mcs-nodejs'
+        command: 'buildAndPush'
+        Dockerfile: 'mcs-nodejs/Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          latest
+
+  - job: BuildFrontend
+    displayName: 'Build Frontend'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '$(NODE_VERSION)'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd mcf-angular
+        npm install
+        npm run build
+      displayName: 'Build Frontend'
+
+    - task: Docker@2
+      inputs:
+        containerRegistry: '$(DOCKER_REGISTRY)'
+        repository: 'mcf-angular'
+        command: 'buildAndPush'
+        Dockerfile: 'mcf-angular/Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          latest
+
+- stage: Deploy
+  displayName: 'Deploy to Azure'
+  dependsOn: Build
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - deployment: DeployBackend
+    displayName: 'Deploy Backend'
+    environment: 'production'
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebAppContainer@1
+            inputs:
+              azureSubscription: '$(AZURE_SUBSCRIPTION)'
+              appName: '$(BACKEND_APP_NAME)'
+              imageName: '$(DOCKER_REGISTRY)/mcs-nodejs:$(Build.BuildId)'
+              containerCommand: 'npm start'
+
+  - deployment: DeployFrontend
+    displayName: 'Deploy Frontend'
+    environment: 'production'
+    pool:
+      vmImage: 'ubuntu-latest'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureWebAppContainer@1
+            inputs:
+              azureSubscription: '$(AZURE_SUBSCRIPTION)'
+              appName: '$(FRONTEND_APP_NAME)'
+              imageName: '$(DOCKER_REGISTRY)/mcf-angular:$(Build.BuildId)'
+              containerCommand: 'nginx -g "daemon off;"'
+
+- stage: Infrastructure
+  displayName: 'Deploy Infrastructure'
+  dependsOn: Deploy
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - job: DeployInfrastructure
+    displayName: 'Deploy Azure Resources'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: TerraformInstaller@0
+      inputs:
+        terraformVersion: 'latest'
+
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: 'terraform/azure'
+        backendServiceArm: '$(AZURE_SUBSCRIPTION)'
+        backendAzureRmResourceGroupName: '$(TFSTATE_RG)'
+        backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: 'terraform/azure'
+        environmentServiceNameAzureRM: '$(AZURE_SUBSCRIPTION)'
+
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: 'terraform/azure'
+        environmentServiceNameAzureRM: '$(AZURE_SUBSCRIPTION)' 

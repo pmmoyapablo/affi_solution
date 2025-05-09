@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service-deployment
+  labels:
+    app: user-service
+spec:
+  selector:
+   matchLabels:
+    app: user-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service-container
+          image: pm44019/mcs-nodejs:v1
+          env:
+          - name: NODE_ENV
+            value: "development"
+          - name: PORT
+            value: "4000"
+          - name: DB_NAME
+            value: "Affi_Users"
+          - name: DB_HOST
+            value: "user-sqldata-service"
+          - name: DB_PORT
+            value: "3306"
+          - name: DB_USER
+            value: "root"
+          - name: DB_PASSWORD
+            value: "adminMysqlser_dev.123"
+          - name: DB_DIALECT
+            value: "mysql"
+          - name: JWT_SECRET
+            value: "abcdefgh12345678"
+          - name: ADAPTER
+            value: "mysql"
+          ports:
+            - containerPort: 4000
+              name: http

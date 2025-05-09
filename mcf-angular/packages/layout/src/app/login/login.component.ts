@@ -5,9 +5,10 @@ import { Message, MessageService } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
-import { loginFirebase } from '@ventas/utils';
+import { AuthService } from '../services/auth.service';
 import { MessagesModule } from 'primeng/messages';
 import { CommonModule } from '@angular/common';
+import { TokenRequest } from '../models/auth.model';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -27,69 +28,47 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   @Output() loginSuccess = new EventEmitter<boolean>();
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService, 
+    private authService: AuthService){ }
 
   email!: string;
   password!: string;
   messages: Message[] | undefined;
 
+
   async login() {
-    this.messageService.clear();
-    try {
-      await loginFirebase(this.email, this.password);
+      this.messageService.clear();
 
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Ingreso',
-        detail: 'Usuario autenticado con éxito',
-      });
-
-      this.loginSuccess.emit(true);
-    } catch (error: any) {
-      if (error.code === 'auth/user-not-found') {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail:
-            '¡Usuario no encontrado. Por favor, regístrese antes de iniciar sesión.!',
-        });
-      } else if (error.code === 'auth/wrong-password') {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: '¡Contraseña incorrecta. Por favor, inténtelo de nuevo.!',
-        });
-      } else if (error.code === 'auth/invalid-credential') {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: '¡Credenciales inválidas. Por favor, reintente.!',
-        });
-      } else if (error.code === 'auth/missing-password') {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: '¡Ingrese una contraseña!',
-        });
-      } else if (error.code === 'auth/missing-email') {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: '¡Ingrese un correo electrónico valido!',
-        });
-      } else if (error.code === 'auth/missing-email') {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: '¡Ingrese un correo electrónico valido!',
-        });
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: '¡Se produjo un error durante la autenticación!',
-        });
+      const credentials: TokenRequest = {
+        username: this.email,
+        password: this.password
       }
-    }
+      this.authService.login(credentials).subscribe({
+        next: (response) => {
+          if (response.auth) {
+            this.authService.setToken(response.token);
+            this.loginSuccess.emit(true);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Ingreso',
+              detail: 'Usuario autenticado con éxito',
+            });
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail:
+                '¡Usuario no encontrado. Por favor, regístrese antes de iniciar sesión.!',
+            });
+          }
+        },
+        error: (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: '¡Se produjo un error durante la autenticación!',
+          });
+        }
+      });   
   }
 }
